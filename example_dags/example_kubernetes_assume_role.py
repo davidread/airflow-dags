@@ -45,7 +45,7 @@ try:
         task_id="task",
         get_logs=True,
         dag=dag,
-        annotations={"iam.amazonaws.com/role": "dev_ravi_test_airflow_assume_role_fake"},
+        annotations={"iam.amazonaws.com/role": "dev_ravi_test_airflow_assume_role"},
     )
 
 
