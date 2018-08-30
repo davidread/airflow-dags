@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 
 
 FLATTENER_IMAGE = "quay.io/mojanalytics/pq_flattener:v1.0.0"
-FLATTENER_IAM_ROLE = "alpha_pq_flattener"
+FLATTENER_IAM_ROLE = "airflow_pq_flattener"
 
 FLATTENER_GLUE_JOB_BUCKET = "alpha-cds-curated-open-data"
 FLATTENER_SOURCE_PATH = f"s3://alpha-cds-raw/open_data/parliamentary_questions/"

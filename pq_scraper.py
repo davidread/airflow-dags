@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 
 
 SCRAPER_IMAGE = "quay.io/mojanalytics/pq_scraper:v0.1.2"
-SCRAPER_IAM_ROLE = "alpha_pq_scraper_dag"
+SCRAPER_IAM_ROLE = "airflow_pq_scraper"
 SCRAPER_S3_BUCKET = "alpha-cds-raw"
 SCRAPER_S3_OBJECT_PREFIX = "open_data/parliamentary_questions/answered_questions_"
 
