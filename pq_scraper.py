@@ -8,7 +8,7 @@ from airflow.utils.dates import days_ago
 
 SCRAPER_IMAGE = "quay.io/mojanalytics/pq_scraper:v0.1.2"
 SCRAPER_IAM_ROLE = "airflow_pq_scraper"
-SCRAPER_S3_BUCKET = "alpha-cds-raw"
+SCRAPER_S3_BUCKET = "mojap-raw"
 SCRAPER_S3_OBJECT_PREFIX = "open_data/parliamentary_questions/answered_questions_"
 
 CATCHUP_START = datetime(2018, 2, 1)
@@ -17,9 +17,9 @@ REUPDATE_LAST_N_DAYS = 31
 
 task_args = {
     "depends_on_past": False,
-    "email_on_failure": True,
-    "email_on_retry": True,
-    "retries": 15,
+    "email_on_failure": False,
+    "email_on_retry": False,
+    "retries": 20,
     "retry_delay": timedelta(seconds=30),
     "retry_exponential_backoff": True,
     "max_retry_delay": timedelta(minutes=15),

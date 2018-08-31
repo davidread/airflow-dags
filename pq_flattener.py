@@ -9,18 +9,20 @@ from airflow.utils.dates import days_ago
 FLATTENER_IMAGE = "quay.io/mojanalytics/pq_flattener:v1.0.0"
 FLATTENER_IAM_ROLE = "airflow_pq_flattener"
 
-FLATTENER_GLUE_JOB_BUCKET = "alpha-cds-curated-open-data"
-FLATTENER_SOURCE_PATH = f"s3://alpha-cds-raw/open_data/parliamentary_questions/"
-FLATTENER_DEST_PATH = f"s3://alpha-cds-curated-open-data/parliamentary_questions/"
+SOURCE_BUCKET = "mojap-raw"
+DEST_BUCKET = "alpha-mojap-curated-open-data"
+FLATTENER_GLUE_JOB_BUCKET = DEST_BUCKET
+FLATTENER_SOURCE_PATH = f"s3://{SOURCE_BUCKET}/open_data/parliamentary_questions/"
+FLATTENER_DEST_PATH = f"s3://{DEST_BUCKET}/parliamentary_questions/"
 
 START_DATE = datetime(2018, 8, 15)
 
 
 task_args = {
     "depends_on_past": False,
-    "email_on_failure": True,
-    "email_on_retry": True,
-    "retries": 15,
+    "email_on_failure": False,
+    "email_on_retry": False,
+    "retries": 20,
     "retry_delay": timedelta(seconds=30),
     "retry_exponential_backoff": True,
     "max_retry_delay": timedelta(minutes=15),
