@@ -20,15 +20,15 @@ START_DATE = datetime(2018, 8, 15)
 
 task_args = {
     "depends_on_past": False,
-    "email_on_failure": False,
-    "email_on_retry": False,
+    "email_on_failure": True,
+    "email_on_retry": True,
     "retries": 20,
     "retry_delay": timedelta(seconds=30),
     "retry_exponential_backoff": True,
     "max_retry_delay": timedelta(minutes=15),
     "execution_timeout": timedelta(minutes=10),
     "owner": "xoen",
-    "email": ["aldogiambelluca@digital.justice.gov.uk"],
+    "email": ["aldo.giambelluca@digital.justice.gov.uk"],
 }
 
 dag_flattener = DAG(
