@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 
-SCRAPER_IMAGE = "quay.io/mojanalytics/pq_scraper:v0.1.2"
+SCRAPER_IMAGE = "quay.io/mojanalytics/pq_scraper:v0.1.3"
 SCRAPER_IAM_ROLE = "airflow_pq_scraper"
 SCRAPER_S3_BUCKET = "mojap-raw"
 SCRAPER_S3_OBJECT_PREFIX = "open_data/parliamentary_questions/answered_questions_"
