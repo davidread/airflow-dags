@@ -5,24 +5,24 @@ from airflow import DAG
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.utils.dates import days_ago
 
-TAR_RAW_FOLDER = "s3://mojap-raw/hmcts/tar/"
+TAR_S3_RELATIVE_FOLDER_PATHS = ""
 TAR_PYTHON_SCRIPT_NAME = "tar_raw_to_process.py"
 
 # HOCAS_RAW_FOLDER = "s3://mojap-raw/hmcts/hocas/"
 # HOCAS_PYTHON_SCRIPT_NAME = "hocas_raw_to_process.py"
 
-MAGS_RAW_TO_PROCESSED_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.2"
+MAGS_RAW_TO_PROCESSED_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.4"
 MAGS_RAW_TO_PROCESSED_ROLE = "airflow_mags_data_processor"
 
 task_args = {
     "depends_on_past": False,
     "email_on_failure": True,
     "email_on_retry": True,
-    "retries": 4,
+    "retries": 2,
     "retry_delay": timedelta(seconds=30),
     "retry_exponential_backoff": True,
     "max_retry_delay": timedelta(minutes=15),
-    "execution_timeout": timedelta(minutes=10),
+    "execution_timeout": timedelta(minutes=60),
     "owner": "isichei",
     "email": ["karik.isichei@digital.justice.gov.uk"],
 }
@@ -42,7 +42,7 @@ process_tar = KubernetesPodOperator(
     image=MAGS_RAW_TO_PROCESSED_IMAGE,
     env_vars={
         "PYTHON_SCRIPT_NAME": TAR_PYTHON_SCRIPT_NAME,
-        "S3_RAW_FILEPATHS": TAR_RAW_FOLDER,
+        "S3_RELATIVE_FOLDER_PATHS": TAR_S3_RELATIVE_FOLDER_PATHS,
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
