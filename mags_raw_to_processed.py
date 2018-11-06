@@ -17,12 +17,6 @@ MAGS_RAW_TO_PROCESSED_ROLE = "airflow_mags_data_processor"
 task_args = {
     "depends_on_past": False,
     "email_on_failure": True,
-    "email_on_retry": True,
-    "retries": 2,
-    "retry_delay": timedelta(seconds=30),
-    "retry_exponential_backoff": True,
-    "max_retry_delay": timedelta(minutes=15),
-    "execution_timeout": timedelta(minutes=60),
     "owner": "isichei",
     "email": ["karik.isichei@digital.justice.gov.uk"],
 }
