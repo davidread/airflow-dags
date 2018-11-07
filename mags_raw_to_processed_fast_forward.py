@@ -85,5 +85,5 @@ for i, flt in enumerate(file_land_timestamps) :
     )
 
     # Set dependencies
-    tasks[task_id] >> tasks['rebuild_athena_schemas']
+    tasks[task_id] >> tasks['rebuild-athena-schemas']
 
