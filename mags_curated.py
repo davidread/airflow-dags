@@ -23,7 +23,7 @@ ALLOCATED_CAPACITY="8"
 
 # SCHEMA REBUILD ENVs
 DB_REBUILD_SCRIPT = 'rebuild_databases.py'
-DBS_TO_REBUILD = 'mags_processed'
+DBS_TO_REBUILD = 'mags_curated'
 
 task_args = {
     "depends_on_past": False,
@@ -44,7 +44,7 @@ dag = DAG(
 
 tasks = {}
 
-task_id = "tar-curated"
+task_id = "curated-tar"
 tasks[task_id] = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
