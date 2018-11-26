@@ -13,8 +13,8 @@ DBS_TO_REBUILD = 'mags_processed'
 # HOCAS_RAW_FOLDER = ""
 # HOCAS_PYTHON_SCRIPT_NAME = "hocas_raw_to_process.py"
 
-MAGS_RAW_TO_PROCESSED_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.7"
-MAGS_RAW_TO_PROCESSED_ROLE = "airflow_mags_data_processor"
+MAGS_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.7"
+MAGS_ROLE = "airflow_mags_data_processor"
 
 task_args = {
     "depends_on_past": False,
@@ -71,7 +71,7 @@ for i, flt in enumerate(file_land_timestamps) :
     tasks[task_id] = KubernetesPodOperator(
         dag=dag,
         namespace="airflow",
-        image=MAGS_RAW_TO_PROCESSED_IMAGE,
+        image=MAGS_IMAGE,
         env_vars={
             "PYTHON_SCRIPT_NAME": TAR_PROCESS_SCRIPT,
             "DB_VERSION": DB_VERSION,
@@ -83,7 +83,7 @@ for i, flt in enumerate(file_land_timestamps) :
         in_cluster=True,
         task_id=task_id,
         get_logs=True,
-        annotations={"iam.amazonaws.com/role": MAGS_RAW_TO_PROCESSED_ROLE},
+        annotations={"iam.amazonaws.com/role": MAGS_ROLE},
     )
 
     # Set dependencies
