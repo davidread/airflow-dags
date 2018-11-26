@@ -50,14 +50,15 @@ tasks[task_id] = KubernetesPodOperator(
     namespace="airflow",
     image=MAGS_IMAGE,
     env_vars={
+        "PYTHON_SCRIPT_NAME": DB_REBUILD_SCRIPT,
+        "DB_VERSION": DB_VERSION,
         "GLUE_JOB_BUCKET": GLUE_JOB_BUCKET,
         "GLUE_JOB_ROLE": MAGS_ROLE,
         "AIRFLOW_JOB_NAME": AIRFLOW_JOB_NAME,
         "GLUE_JOB_FOLDER_NAME": GLUE_JOB_FOLDER_NAME,
         "DATABASE_RUN_DATETIME": DATABASE_RUN_DATETIME,
         "SNAPSHOT_DATE": SNAPSHOT_DATE,
-        "ALLOCATED_CAPACITY": ALLOCATED_CAPACITY,
-        "DB_VERSION": DB_VERSION
+        "ALLOCATED_CAPACITY": ALLOCATED_CAPACITY
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},

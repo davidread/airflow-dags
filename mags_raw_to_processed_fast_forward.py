@@ -6,13 +6,14 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 TAR_PROCESS_SCRIPT = "tar_raw_to_process.py"
-TAR_DB_SCRIPT = "rebuild_tar_databases.py"
+DB_REBUILD_SCRIPT = "rebuild_databases.py"
 DB_VERSION = 'v1'
+DBS_TO_REBUILD = 'mags_processed'
 
 # HOCAS_RAW_FOLDER = ""
 # HOCAS_PYTHON_SCRIPT_NAME = "hocas_raw_to_process.py"
 
-MAGS_RAW_TO_PROCESSED_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.5"
+MAGS_RAW_TO_PROCESSED_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.7"
 MAGS_RAW_TO_PROCESSED_ROLE = "airflow_mags_data_processor"
 
 task_args = {
@@ -49,10 +50,11 @@ task_id = "rebuild-athena-schemas"
 tasks[task_id] = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
-    image=MAGS_RAW_TO_PROCESSED_IMAGE,
+    image=MAGS_IMAGE,
     env_vars={
-        "PYTHON_SCRIPT_NAME": TAR_DB_SCRIPT,
-        "DB_VERSION": DB_VERSION
+        "PYTHON_SCRIPT_NAME": DB_REBUILD_SCRIPT,
+        "DB_VERSION": DB_VERSION,
+        "DBS_TO_REBUILD" : DBS_TO_REBUILD
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
@@ -60,7 +62,7 @@ tasks[task_id] = KubernetesPodOperator(
     in_cluster=True,
     task_id=task_id,
     get_logs=True,
-    annotations={"iam.amazonaws.com/role": MAGS_RAW_TO_PROCESSED_ROLE},
+    annotations={"iam.amazonaws.com/role": MAGS_ROLE},
 )
 
 # Run each set of paths in parallel and set rebuild of databases downstream
@@ -85,5 +87,5 @@ for i, flt in enumerate(file_land_timestamps) :
     )
 
     # Set dependencies
-    tasks[task_id] >> tasks['rebuild-athena-schemas']
+    tasks[task_id] >> tasks["rebuild-athena-schemas"]
 
