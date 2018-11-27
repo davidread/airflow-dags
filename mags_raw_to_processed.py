@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
 DB_VERSION='v1'
-MAGS_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.6"
+MAGS_IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-magistrates-data-engineering:v0.0.7"
 MAGS_ROLE = "airflow_mags_data_processor"
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
