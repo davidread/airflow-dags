@@ -26,7 +26,7 @@ dag = DAG(
     "oral-pqs",
     default_args=task_args,
     description="Go get some oral PQs and put them in S3",
-    start_date=datetime.datetime(2018, 11, 28),
+    start_date=datetime(2018, 11, 28),
     schedule_interval=None
 )
 
