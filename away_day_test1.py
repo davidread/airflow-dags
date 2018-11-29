@@ -13,8 +13,8 @@ ROLE = "airflow_away_day_tester"
 task_args = {
     "depends_on_past": False,
     "email_on_failure": True,
-    "owner": “karolagraupner”,
-    "email": [“karola.graupner1@justice.gov.uk”],
+    "owner": "karolagraupner",
+    "email": ["karola.graupner1@justice.gov.uk"],
 }
 
 # # # Define your DAG
@@ -23,7 +23,7 @@ task_args = {
 # To actually put it on a schedule you can set something like:
 # start_date=datetime(2018, 8, 1), schedule_interval=timedelta(days=1)
 dag = DAG(
-    “away_day_test1”,
+    "away_day_test1",
     default_args=task_args,
     description="Whatever",
     start_date=datetime.now(),
