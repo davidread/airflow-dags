@@ -23,7 +23,7 @@ task_args = {
 # To actually put it on a schedule you can set something like:
 # start_date=datetime(2018, 8, 1), schedule_interval=timedelta(days=1)
 dag = DAG(
-    "oral-pqs",
+    "oral_pqs",
     default_args=task_args,
     description="Go get some oral PQs and put them in S3",
     start_date=datetime(2018, 11, 28),
