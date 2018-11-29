@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-oral-pqs:v1.0"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-oral-pqs:v1.0.1"
 ROLE = "airflow_oral_pq_downloader.json"
 
 # Task arguments
