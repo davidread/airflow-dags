@@ -7,7 +7,7 @@ from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
 IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-oral-pqs:v1.0.3"
-ROLE = "airflow_oral_pq_downloader.json"
+ROLE = "airflow_oral_pqs"
 
 # Task arguments
 task_args = {
@@ -39,9 +39,9 @@ task1 = KubernetesPodOperator(
         "script1_var": '1'
     },
     labels={"app": dag.dag_id},
-    name="Oral_PQs_api_call",
+    name="oral_pqs_api_call",
     in_cluster=True,
-    task_id="Oral_PQs_api_call",
+    task_id="oral_pqs_api_call",
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
 )
