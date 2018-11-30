@@ -39,9 +39,9 @@ task1 = KubernetesPodOperator(
         "script1_var": '1'
     },
     labels={"app": dag.dag_id},
-    name="Oral_PQs_api_call",
+    name="oral_pqs_api_call",
     in_cluster=True,
-    task_id="Oral_PQs_api_call",
+    task_id="oral_pqs_api_call",
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
 )
