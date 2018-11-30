@@ -30,18 +30,19 @@ dag = DAG(
     schedule_interval=None
 )
 
+task_id = "oral-pqs-api-call"
 task1 = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
     image=IMAGE,
     env_vars={
         "SCRIPT_NAME": "Oral_PQs_api_call.py",
-        "script1_var": '1'
+        "script1_var": '100'
     },
     labels={"app": dag.dag_id},
-    name="oral_pqs_api_call",
+    name=task_id,
     in_cluster=True,
-    task_id="oral_pqs_api_call",
+    task_id=task_id,
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
 )
