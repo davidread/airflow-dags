@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-bentham-app:v0.0.2"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-bentham-app:v0.1.0"
 ROLE = "airflow_bentham_app"
 
 # Task arguments
@@ -30,15 +30,11 @@ dag = DAG(
     schedule_interval=None
 )
 
-task_id = "bentham_app_data_update"
+task_id = "bentham-app-data-update"
 task1 = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
     image=IMAGE,
-    env_vars={
-        "SCRIPT_NAME": "bentham_data_update.R",
-        "script1_var": '100'
-    },
     labels={"app": dag.dag_id},
     name=task_id,
     in_cluster=True,
