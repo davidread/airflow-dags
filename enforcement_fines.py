@@ -41,10 +41,10 @@ task = KubernetesPodOperator(
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        "DATASET": DATASET
-        "YEAR": YEAR
-        "MONTH": MONTH
-        "BUCKET": BUCKET
+        "DATASET": DATASET,
+        "YEAR": YEAR,
+        "MONTH": MONTH,
+        "BUCKET": BUCKET,
     },
     labels={"app": dag.dag_id},
     name=task_id,
