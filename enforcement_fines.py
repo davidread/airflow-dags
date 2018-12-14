@@ -9,6 +9,11 @@ from airflow.utils.dates import days_ago
 IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.2"
 ROLE = "airflow_enforcement_data_processing"
 
+DATASET='closed'
+YEAR='2018'
+MONTH='10'
+BUCKET='alpha-enforcement-data-engineering'
+
 # Task arguments
 task_args = {
     "depends_on_past": False,
@@ -36,10 +41,10 @@ task = KubernetesPodOperator(
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        DATASET='closed'
-        YEAR='2018'
-        MONTH='10'
-        BUCKET='alpha-enforcement-data-engineering'
+        "DATASET": DATASET
+        "YEAR": YEAR
+        "MONTH": MONTH
+        "BUCKET": BUCKET
     },
     labels={"app": dag.dag_id},
     name=task_id,
