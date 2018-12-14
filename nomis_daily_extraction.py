@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v0.0.0"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.0"
 ROLE = "airflow_nomis_extraction"
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
@@ -20,16 +20,23 @@ task_args = {
     "email": ["karik.isichei@digital.justice.gov.uk"],
 }
 
-# Define process dag that just processes raw tar and hocas data in parallel.
-# Once complete rebuild processed DB only
 dag = DAG(
     "nomis_daily_extraction",
     default_args=task_args,
     description="Extract data from the NOMIS T62 Database",
-    start_date=datetime(2018, 12, 1),
-    schedule_interval="@daily",
+    start_date=datetime.now(),
+    schedule_interval=None,
     catchup=False,
 )
+
+# dag = DAG(
+#     "nomis_daily_extraction",
+#     default_args=task_args,
+#     description="Extract data from the NOMIS T62 Database",
+#     start_date=datetime(2018, 12, 1),
+#     schedule_interval="@daily",
+#     catchup=False,
+# )
 
 tasks = {}
 
