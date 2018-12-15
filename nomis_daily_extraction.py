@@ -24,19 +24,10 @@ dag = DAG(
     "nomis_daily_extraction",
     default_args=task_args,
     description="Extract data from the NOMIS T62 Database",
-    start_date=datetime.now(),
-    schedule_interval=None,
+    start_date=datetime(2018, 12, 1),
+    schedule_interval="@daily",
     catchup=False,
 )
-
-# dag = DAG(
-#     "nomis_daily_extraction",
-#     default_args=task_args,
-#     description="Extract data from the NOMIS T62 Database",
-#     start_date=datetime(2018, 12, 1),
-#     schedule_interval="@daily",
-#     catchup=False,
-# )
 
 tasks = {}
 
