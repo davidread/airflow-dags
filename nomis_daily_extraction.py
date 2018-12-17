@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.0"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.3"
 ROLE = "airflow_nomis_extraction"
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
@@ -21,22 +21,13 @@ task_args = {
 }
 
 dag = DAG(
-    "nomis_daily_extraction",
+    "nomis_daily_extract",
     default_args=task_args,
     description="Extract data from the NOMIS T62 Database",
-    start_date=datetime.now(),
-    schedule_interval=None,
+    start_date=datetime(2018, 12, 16),
+    schedule_interval="@daily",
     catchup=False,
 )
-
-# dag = DAG(
-#     "nomis_daily_extraction",
-#     default_args=task_args,
-#     description="Extract data from the NOMIS T62 Database",
-#     start_date=datetime(2018, 12, 1),
-#     schedule_interval="@daily",
-#     catchup=False,
-# )
 
 tasks = {}
 
