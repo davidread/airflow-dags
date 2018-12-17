@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.2"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.3"
 ROLE = "airflow_enforcement_data_processing"
 
 DATASET='closed'
@@ -31,7 +31,7 @@ dag = DAG(
     "enforcement_fines_data",
     default_args=task_args,
     description="Cleaning and processing the enforcement fines datasets",
-    start_date=datetime(2018, 11, 30),
+    start_date=datetime.now(),
     schedule_interval=None
 )
 
