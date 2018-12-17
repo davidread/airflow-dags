@@ -21,7 +21,7 @@ task_args = {
 }
 
 dag = DAG(
-    "nomis_daily_extraction",
+    "nomis_daily_extract",
     default_args=task_args,
     description="Extract data from the NOMIS T62 Database",
     start_date=datetime(2018, 12, 16),
