@@ -31,7 +31,7 @@ dag = DAG(
     "enforcement_fines_data",
     default_args=task_args,
     description="Cleaning and processing the enforcement fines datasets",
-    start_date=datetime.now(),
+    start_date=datetime(2018, 11, 30),
     schedule_interval=None
 )
 
