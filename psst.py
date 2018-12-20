@@ -27,7 +27,7 @@ dag = DAG(
     default_args=task_args,
     description="get new prison reports, process them, and put them in the psst",
     start_date=datetime.now(),
-    schedule_interval==None
+    schedule_interval=None
 )
 
 task_id = "psst-data"
