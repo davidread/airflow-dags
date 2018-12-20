@@ -6,13 +6,8 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.4"
-ROLE = "airflow_enforcement_data_processing"
-
-DATASET='closed'
-YEAR='2018'
-MONTH='10'
-BUCKET='alpha-enforcement-data-engineering'
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-psst-data:v0.0.4"
+ROLE = "airflow_psst_data"
 
 # Task arguments
 task_args = {
@@ -28,23 +23,19 @@ task_args = {
 # To actually put it on a schedule you can set something like:
 # start_date=datetime(2018, 8, 1), schedule_interval=timedelta(days=1)
 dag = DAG(
-    "enforcement_fines_data",
+    "psst_data",
     default_args=task_args,
-    description="Cleaning and processing the enforcement fines datasets",
-    start_date=datetime(2018, 11, 30),
+    description="get new prison reports, process them, and put them in the psst",
+    start_date=datetime.now(),
     schedule_interval=None
 )
 
-task_id = "enforcement-fines-data"
-task = KubernetesPodOperator(
+task_id = "psst-data"
+task1 = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        "DATASET": DATASET,
-        "YEAR": YEAR,
-        "MONTH": MONTH,
-        "BUCKET": BUCKET,
     },
     labels={"app": dag.dag_id},
     name=task_id,
