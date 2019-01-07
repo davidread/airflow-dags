@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.3"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.4"
 ROLE = "airflow_nomis_extraction"
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
@@ -46,7 +46,7 @@ tasks[task_id] = KubernetesPodOperator(
     task_id=task_id,
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
-    node_selectors = {"kubernetes.io/hostname": "ip-192-168-10-153.eu-west-1.compute.internal"}
+    node_selectors = {"failure-domain.beta.kubernetes.io/zone": "eu-west-1a"}
 )
 
 task_id = "check-batch-extract"
