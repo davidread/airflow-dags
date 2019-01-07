@@ -29,7 +29,7 @@ dag = DAG(
     "bentham_app_2",
     default_args=task_args,
     description="Check s3 for new phone data, then add to database if present.",
-    start_date=datetime(2018, 12, 18, 2),
+    start_date=datetime(2019, 1, 6, 2),
     schedule_interval=timedelta(days=1),
     catchup=False
 )
