@@ -46,7 +46,7 @@ tasks[task_id] = KubernetesPodOperator(
     task_id=task_id,
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
-    node_selectors = {"kubernetes.io/hostname": "ip-192-168-10-153.eu-west-1.compute.internal"}
+    node_selectors = {"failure-domain.beta.kubernetes.io/zone": "eu-west-1a"}
 )
 
 task_id = "check-batch-extract"
