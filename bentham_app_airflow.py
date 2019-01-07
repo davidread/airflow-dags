@@ -26,7 +26,7 @@ task_args = {
 # To actually put it on a schedule you can set something like:
 # start_date=datetime(2018, 8, 1), schedule_interval=timedelta(days=1)
 dag = DAG(
-    "bentham_app",
+    "bentham_app_2",
     default_args=task_args,
     description="Check s3 for new phone data, then add to database if present.",
     start_date=datetime(2018, 12, 18, 2),
