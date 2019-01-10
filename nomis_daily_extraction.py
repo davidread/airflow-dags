@@ -64,7 +64,6 @@ tasks[task_id] = KubernetesPodOperator(
     task_id=task_id,
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
-    is_delete_operator_pod=True
 )
 
 # Set dependencies
