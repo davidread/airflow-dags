@@ -6,8 +6,9 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.5"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.7"
 ROLE = "airflow_nomis_extraction"
+NOMIS_T62_FETCH_SIZE = "10000" # "1000" definitely works for deltas so let's see what 10000 does
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
 EXTRACTION_SCRIPT = "nomis_batch_extract.py"
@@ -37,7 +38,8 @@ tasks[task_id] = KubernetesPodOperator(
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        "PYTHON_SCRIPT_NAME": "nomis_batch_extract.py"
+        "PYTHON_SCRIPT_NAME": "nomis_batch_extract.py",
+        "NOMIS_T62_FETCH_SIZE": NOMIS_T62_FETCH_SIZE
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
@@ -63,8 +65,7 @@ tasks[task_id] = KubernetesPodOperator(
     in_cluster=True,
     task_id=task_id,
     get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-    is_delete_operator_pod=True
+    annotations={"iam.amazonaws.com/role": ROLE}
 )
 
 # Set dependencies
