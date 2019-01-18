@@ -46,4 +46,3 @@ task1 = KubernetesPodOperator(
     get_logs=True,
     annotations={"iam.amazonaws.com/role": ROLE},
 )
-
