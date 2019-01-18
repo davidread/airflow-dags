@@ -6,8 +6,8 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE_VERSION = "v1.0.7"
-IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:{IMAGE_VERSION}"
+IMAGE_TAG = "v1.0.7"
+IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:{IMAGE_TAG}"
 ROLE = "airflow_nomis_extraction"
 NOMIS_T62_FETCH_SIZE = "10000" # "1000" definitely works for deltas so let's see what 10000 does
 
@@ -40,7 +40,7 @@ tasks[task_id] = KubernetesPodOperator(
     image=IMAGE,
     env_vars={
         "PYTHON_SCRIPT_NAME": "nomis_batch_extract.py",
-        "IMAGE_VERSION": IMAGE_VERSION,
+        "IMAGE_TAG": IMAGE_TAG,
         "NOMIS_T62_FETCH_SIZE": NOMIS_T62_FETCH_SIZE
     },
     arguments=["{{ ds }}"],
