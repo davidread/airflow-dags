@@ -57,21 +57,21 @@ dag = DAG(
 # )
 
 for dataset in FINES_DATASET:
-    task_id = f"'enforcement-fines-data-{dataset}'"
+    task_id = f"enforcement-fines-data-{dataset}"
     task = KubernetesPodOperator(
-    dag=dag,
-    namespace="airflow",
-    image=IMAGE,
-    env_vars={
-        "DATASET": f"'{dataset}'",
-        "YEAR": YEAR,
-        "MONTH": MONTH,
-        "BUCKET": BUCKET,
-    },
-    labels={"app": dag.dag_id},
-    name=task_id,
-    in_cluster=True,
-    task_id=task_id,
-    get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-)
+        dag=dag,
+        namespace="airflow",
+        image=IMAGE,
+        env_vars={
+            "DATASET": f"{dataset}",
+            "YEAR": YEAR,
+            "MONTH": MONTH,
+            "BUCKET": BUCKET,
+        },
+        labels={"app": dag.dag_id},
+        name=task_id,
+        in_cluster=True,
+        task_id=task_id,
+        get_logs=True,
+        annotations={"iam.amazonaws.com/role": ROLE},
+    )
