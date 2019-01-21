@@ -35,27 +35,6 @@ dag = DAG(
     schedule_interval=None
 )
 
-
-# for dataset in FINES_DATASET:
-#     task_id = '"{0}"'.format(''.join(['enforcement-fines-data-', dataset]))
-#     task = KubernetesPodOperator(
-#     dag=dag,
-#     namespace="airflow",
-#     image=IMAGE,
-#     env_vars={
-#         "DATASET": '"{0}"'.format(''.join(dataset)),
-#         "YEAR": YEAR,
-#         "MONTH": MONTH,
-#         "BUCKET": BUCKET,
-#     },
-#     labels={"app": dag.dag_id},
-#     name=task_id,
-#     in_cluster=True,
-#     task_id=task_id,
-#     get_logs=True,
-#     annotations={"iam.amazonaws.com/role": ROLE},
-# )
-
 for dataset in FINES_DATASET:
     task_id = f"enforcement-fines-data-{dataset}"
     task = KubernetesPodOperator(
