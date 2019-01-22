@@ -9,7 +9,7 @@ from airflow.utils.dates import days_ago
 IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.4"
 ROLE = "airflow_enforcement_data_processing"
 
-#DATASET='closed'
+FINES_DATASET=['closed', 'transactions', 'live']
 YEAR='2018'
 MONTH='10'
 BUCKET='alpha-enforcement-data-engineering'
@@ -35,59 +35,22 @@ dag = DAG(
     schedule_interval=None
 )
 
-task_id = "enforcement-fines-data-closed"
-task = KubernetesPodOperator(
-    dag=dag,
-    namespace="airflow",
-    image=IMAGE,
-    env_vars={
-        "DATASET": 'closed',
-        "YEAR": YEAR,
-        "MONTH": MONTH,
-        "BUCKET": BUCKET,
-    },
-    labels={"app": dag.dag_id},
-    name=task_id,
-    in_cluster=True,
-    task_id=task_id,
-    get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-)
-
-task_id = "enforcement-fines-data-transactions"
-task = KubernetesPodOperator(
-    dag=dag,
-    namespace="airflow",
-    image=IMAGE,
-    env_vars={
-        "DATASET": 'transactions',
-        "YEAR": YEAR,
-        "MONTH": MONTH,
-        "BUCKET": BUCKET,
-    },
-    labels={"app": dag.dag_id},
-    name=task_id,
-    in_cluster=True,
-    task_id=task_id,
-    get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-)
-
-task_id = "enforcement-fines-data-live"
-task = KubernetesPodOperator(
-    dag=dag,
-    namespace="airflow",
-    image=IMAGE,
-    env_vars={
-        "DATASET": 'live',
-        "YEAR": YEAR,
-        "MONTH": MONTH,
-        "BUCKET": BUCKET,
-    },
-    labels={"app": dag.dag_id},
-    name=task_id,
-    in_cluster=True,
-    task_id=task_id,
-    get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-)
+for dataset in FINES_DATASET:
+    task_id = f"enforcement-fines-data-{dataset}"
+    task = KubernetesPodOperator(
+        dag=dag,
+        namespace="airflow",
+        image=IMAGE,
+        env_vars={
+            "DATASET": f"{dataset}",
+            "YEAR": YEAR,
+            "MONTH": MONTH,
+            "BUCKET": BUCKET,
+        },
+        labels={"app": dag.dag_id},
+        name=task_id,
+        in_cluster=True,
+        task_id=task_id,
+        get_logs=True,
+        annotations={"iam.amazonaws.com/role": ROLE},
+    )
