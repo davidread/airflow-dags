@@ -35,6 +35,24 @@ dag = DAG(
     schedule_interval=None
 )
 
+for dataset in s3.Bucket('alpha-enforcement-data-engineering').objects.filter(Prefix="input_folder/"):       
+    if re.search(r'(20\d{2})(\d{2})', dataset.key):
+            match = re.search(r'(20\d{2})(\d{2})', dataset.key)
+            year = match.group(1) if match else None
+            month = match.group(2) if match else None
+            if re.search(r'(SR0550)', dataset.key):
+                dataset_type = 'live'
+            if re.search(r'(SR0413)', dataset.key):
+                dataset_type = 'closed'
+            if re.search(r'(SR0494)', dataset.key):
+                dataset_type = 'transactions'
+            filename = dataset.key.split("/")[1]
+            destFileKey = f'{dataset_type}/{dataset_type}_raw/{month}-{year}' + '/' + f'{filename}'
+            print(destFileKey)
+            copySource = 'alpha-enforcement-data-engineering' + '/' + dataset.key
+            s3.Object('alpha-enforcement-data-engineering', destFileKey).copy_from(CopySource=copySource)
+            s3.Object('alpha-enforcement-data-engineering', copySource).delete()
+
 for dataset in FINES_DATASET:
     task_id = f"enforcement-fines-data-{dataset}"
     task = KubernetesPodOperator(
