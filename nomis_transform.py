@@ -29,9 +29,9 @@ dag = DAG(
 
 # Define docker image and the AWS role (based on the airflow-repo)
 repo_name = "airflow-nomis-transform"
-repo_release_tag = "v2.0.0"
+repo_release_tag = "v2.0.2"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
-ROLE = "airflow-nomis-transform"
+ROLE = "airflow_nomis_transform"
 
 process_source = "mojap-raw-hist/hmpps/nomis_t62"
 destination = "alpha-anvil/curated"
