@@ -9,10 +9,8 @@ from airflow.utils.dates import days_ago
 IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.4"
 ROLE = "airflow_enforcement_data_processing"
 
-FINES_DATASET=['closed', 'transactions', 'live']
-YEAR='2018'
-MONTH='10'
-BUCKET='alpha-enforcement-data-engineering'
+FINES_DATASETS=['closed', 'transactions', 'live']
+bucket='alpha-enforcement-data-engineering'
 
 # Task arguments
 task_args = {
@@ -32,10 +30,25 @@ dag = DAG(
     default_args=task_args,
     description="Cleaning and processing the enforcement fines datasets",
     start_date=datetime(2018, 11, 30),
-    schedule_interval=None
+    schedule_interval= @monthly
 )
 
+date_list = []
+
 for dataset in s3.Bucket('alpha-enforcement-data-engineering').objects.filter(Prefix="input_folder/"):       
+    if re.search(r'(20\d{2})(\d{2})', dataset.key):
+        match = re.search(r'(20\d{2})(\d{2})', dataset.key)
+        date = match.group() if match else None
+        date_list.append(date)
+        #print(dataset.key.split("/")[1])
+        #print(date)
+
+unique_date_list = list(set(date_list))
+
+print(unique_date_list)
+
+
+for dataset in s3.Bucket(bucket).objects.filter(Prefix="input_folder/"):       
     if re.search(r'(20\d{2})(\d{2})', dataset.key):
             match = re.search(r'(20\d{2})(\d{2})', dataset.key)
             year = match.group(1) if match else None
@@ -49,26 +62,28 @@ for dataset in s3.Bucket('alpha-enforcement-data-engineering').objects.filter(Pr
             filename = dataset.key.split("/")[1]
             destFileKey = f'{dataset_type}/{dataset_type}_raw/{month}-{year}' + '/' + f'{filename}'
             print(destFileKey)
-            copySource = 'alpha-enforcement-data-engineering' + '/' + dataset.key
-            s3.Object('alpha-enforcement-data-engineering', destFileKey).copy_from(CopySource=copySource)
-            s3.Object('alpha-enforcement-data-engineering', copySource).delete()
+            copySource = bucket + '/' + dataset.key
+            s3.Object(bucket, destFileKey).copy_from(CopySource=copySource)
+            s3.Object(bucket, copySource).delete()
 
-for dataset in FINES_DATASET:
-    task_id = f"enforcement-fines-data-{dataset}"
-    task = KubernetesPodOperator(
-        dag=dag,
-        namespace="airflow",
-        image=IMAGE,
-        env_vars={
-            "DATASET": f"{dataset}",
-            "YEAR": YEAR,
-            "MONTH": MONTH,
-            "BUCKET": BUCKET,
-        },
-        labels={"app": dag.dag_id},
-        name=task_id,
-        in_cluster=True,
-        task_id=task_id,
-        get_logs=True,
-        annotations={"iam.amazonaws.com/role": ROLE},
-    )
+
+for date in unique_date_list:
+    for fine_type in FINES_DATASETS:
+        task_id = f"enforcement-fines-data-{fine_type}"
+        task = KubernetesPodOperator(
+            dag=dag,
+            namespace="airflow",
+            image=IMAGE,
+            env_vars={
+                "DATASET": f"{fine_type}",
+                "YEAR": date[0:4],
+                "MONTH": date[4:6],
+                "BUCKET": bucket,
+            },
+            labels={"app": dag.dag_id},
+            name=task_id,
+            in_cluster=True,
+            task_id=task_id,
+            get_logs=True,
+            annotations={"iam.amazonaws.com/role": ROLE},
+        )
