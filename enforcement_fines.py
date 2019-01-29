@@ -47,6 +47,7 @@ unique_date_list = list(set(date_list))
 
 print(unique_date_list)
 
+s3 = boto3.resource('s3')
 
 for dataset in s3.Bucket(bucket).objects.filter(Prefix="input_folder/"):       
     if re.search(r'(20\d{2})(\d{2})', dataset.key):
