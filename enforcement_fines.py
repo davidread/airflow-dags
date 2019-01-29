@@ -30,7 +30,7 @@ dag = DAG(
     default_args=task_args,
     description="Cleaning and processing the enforcement fines datasets",
     start_date=datetime(2018, 11, 30),
-    schedule_interval= @monthly,
+    schedule_interval= "@monthly",
 )
 
 date_list = []
