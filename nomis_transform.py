@@ -43,7 +43,7 @@ entry_py_script = "run.py"
 work_capacity = "4"
 
 
-json_path = 'airflow_dags/dag_configs/nomis_transform_tasks.json'
+json_path = './resource-dags-pr/dag_configs/nomis_transform_tasks.json'
 
 with open(json_path) as f:
     airflow_tasks = json.load(f)
