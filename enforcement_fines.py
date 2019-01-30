@@ -36,43 +36,43 @@ dag = DAG(
 )
 
 
-s3 = boto3.resource('s3')
-date_list = []
+# s3 = boto3.resource('s3')
+# date_list = []
 
-for dataset in s3.Bucket('alpha-enforcement-data-engineering').objects.filter(Prefix="input_folder/"):       
-    if re.search(r'(20\d{2})(\d{2})', dataset.key):
-        match = re.search(r'(20\d{2})(\d{2})', dataset.key)
-        date = match.group() if match else None
-        date_list.append(date)
-        #print(dataset.key.split("/")[1])
-        #print(date)
+# for dataset in s3.Bucket('alpha-enforcement-data-engineering').objects.filter(Prefix="input_folder/"):       
+#     if re.search(r'(20\d{2})(\d{2})', dataset.key):
+#         match = re.search(r'(20\d{2})(\d{2})', dataset.key)
+#         date = match.group() if match else None
+#         date_list.append(date)
+#         #print(dataset.key.split("/")[1])
+#         #print(date)
 
-unique_date_list = list(set(date_list))
+# unique_date_list = list(set(date_list))
 
-print(unique_date_list)
-
-
-for dataset in s3.Bucket(bucket).objects.filter(Prefix="input_folder/"):       
-    if re.search(r'(20\d{2})(\d{2})', dataset.key):
-            match = re.search(r'(20\d{2})(\d{2})', dataset.key)
-            year = match.group(1) if match else None
-            month = match.group(2) if match else None
-            if re.search(r'(SR0550)', dataset.key):
-                dataset_type = 'live'
-            if re.search(r'(SR0413)', dataset.key):
-                dataset_type = 'closed'
-            if re.search(r'(SR0494)', dataset.key):
-                dataset_type = 'transactions'
-            filename = dataset.key.split("/")[1]
-            destFileKey = f'{dataset_type}/{dataset_type}_raw/{month}-{year}' + '/' + f'{filename}'
-            print(destFileKey)
-            copySource = bucket + '/' + dataset.key
-            s3.Object(bucket, destFileKey).copy_from(CopySource=copySource)
-            s3.Object(bucket, copySource).delete()
+# print(unique_date_list)
 
 
-for date in unique_date_list:
-    for fine_type in FINES_DATASETS:
+# for dataset in s3.Bucket(bucket).objects.filter(Prefix="input_folder/"):       
+#     if re.search(r'(20\d{2})(\d{2})', dataset.key):
+#             match = re.search(r'(20\d{2})(\d{2})', dataset.key)
+#             year = match.group(1) if match else None
+#             month = match.group(2) if match else None
+#             if re.search(r'(SR0550)', dataset.key):
+#                 dataset_type = 'live'
+#             if re.search(r'(SR0413)', dataset.key):
+#                 dataset_type = 'closed'
+#             if re.search(r'(SR0494)', dataset.key):
+#                 dataset_type = 'transactions'
+#             filename = dataset.key.split("/")[1]
+#             destFileKey = f'{dataset_type}/{dataset_type}_raw/{month}-{year}' + '/' + f'{filename}'
+#             print(destFileKey)
+#             copySource = bucket + '/' + dataset.key
+#             s3.Object(bucket, destFileKey).copy_from(CopySource=copySource)
+#             s3.Object(bucket, copySource).delete()
+
+
+#for date in unique_date_list:
+for fine_type in FINES_DATASETS:
         task_id = f"enforcement-fines-data-{fine_type}"
         task = KubernetesPodOperator(
             dag=dag,
@@ -80,8 +80,8 @@ for date in unique_date_list:
             image=IMAGE,
             env_vars={
                 "DATASET": f"{fine_type}",
-                "YEAR": date[0:4],
-                "MONTH": date[4:6],
+                #"YEAR": date[0:4],
+                #"MONTH": date[4:6],
                 "BUCKET": bucket,
             },
             labels={"app": dag.dag_id},
