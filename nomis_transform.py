@@ -42,15 +42,10 @@ gluejob_role = "alpha_user_mandarinduck"
 entry_py_script = "run.py"
 work_capacity = "4"
 
+json_path = os.path.dirname(__file__) + "/dag_configs/nomis_transform_tasks.json"
 
-try:
-    json_path = './resource-dags-pr/nomis_transform.py'
-    with open(json_path) as f:
-        airflow_tasks = json.load(f)
-except:
-    json_path = '/root/airflow/dags/dag_configs/nomis_transform_tasks.json'
-    with open(json_path) as f:
-        airflow_tasks = json.load(f)
+with open(json_path) as f:
+    airflow_tasks = json.load(f)
 
 
 # Define the set of tasks using the airflow_tasks .json file
