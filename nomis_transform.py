@@ -43,6 +43,7 @@ gluejob_role = "alpha_user_mandarinduck"
 entry_py_script = "run.py"
 work_capacity = "4"
 
+print(os.path.dirname(__file__))
 json_path = os.path.dirname(__file__) + "/dag_configs/nomis_transform_tasks.json"
 
 with open(json_path) as f:
