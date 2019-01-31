@@ -6,11 +6,13 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:v1.0.5"
+IMAGE_VERSION = 
+IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:{IMAGE_VERSION}"
 ROLE = "airflow_nomis_extraction"
+NOMIS_T62_FETCH_SIZE = '100000'
 
 # TAR/HOCAS PROCESS SCRIPT ENVs
-EXTRACTION_SCRIPT = "nomis_batch_extract.py"
+EXTRACTION_SCRIPT = "nomis_delta_extract.py"
 EXTRACTION_CHECK_SCRIPT = "test_extraction_outputs_and_move_to_raw.py"
 
 task_args = {
@@ -37,7 +39,9 @@ tasks[task_id] = KubernetesPodOperator(
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        "PYTHON_SCRIPT_NAME": "nomis_batch_extract.py"
+        "PYTHON_SCRIPT_NAME": EXTRACTION_SCRIPT,
+        "IMAGE_VERSION": IMAGE_VERSION,
+        "NOMIS_T62_FETCH_SIZE": NOMIS_T62_FETCH_SIZE
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
@@ -55,7 +59,8 @@ tasks[task_id] = KubernetesPodOperator(
     namespace="airflow",
     image=IMAGE,
     env_vars={
-        "PYTHON_SCRIPT_NAME": "test_extraction_outputs_and_move_to_raw.py"
+        "PYTHON_SCRIPT_NAME": EXTRACTION_CHECK_SCRIPT,
+        "IMAGE_VERSION": IMAGE_VERSION
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
