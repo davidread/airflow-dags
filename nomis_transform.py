@@ -5,6 +5,7 @@ from airflow import DAG
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.utils.dates import days_ago
 import json
+import os
 
 # Task arguments
 task_args = {
