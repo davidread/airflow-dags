@@ -5,6 +5,7 @@ from airflow import DAG
 from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 from airflow.utils.dates import days_ago
 import json
+import os
 
 # Task arguments
 task_args = {
@@ -42,8 +43,8 @@ gluejob_role = "alpha_user_mandarinduck"
 entry_py_script = "run.py"
 work_capacity = "4"
 
-
-json_path = './resource-dags-pr/dag_configs/nomis_transform_tasks.json'
+print(os.path.dirname(__file__))
+json_path = os.path.dirname(__file__) + "/dag_configs/nomis_transform_tasks.json"
 
 with open(json_path) as f:
     airflow_tasks = json.load(f)
