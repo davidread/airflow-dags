@@ -6,8 +6,8 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-sdt:v1.5"
-ROLE = "airflow_sdt"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-assaults-reasons:v0.3"
+ROLE = "airflow_assaults_reasons"
 
 # Task arguments
 task_args = {
@@ -23,15 +23,15 @@ task_args = {
 # To actually put it on a schedule you can set something like:
 # start_date=datetime(2018, 8, 1), schedule_interval=timedelta(days=1)
 dag = DAG(
-    "sdt",
+    "assaults-reasons",
     default_args=task_args,
     description="run at a specified time of day",
-    start_date=datetime(2018, 12, 19, 4),
+    start_date=datetime(2019, 2, 1, 2),
     schedule_interval=timedelta(days=1),
     catchup=False
 )
 
-task_id = "sdt-data-update"
+task_id = "assaults-reasons-data-update"
 task1 = KubernetesPodOperator(
     dag=dag,
     namespace="airflow",
