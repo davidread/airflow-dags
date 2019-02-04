@@ -30,7 +30,7 @@ dag = DAG(
 
 # Define docker image and the AWS role (based on the airflow-repo)
 repo_name = "airflow-nomis-transform"
-repo_release_tag = "v2.0.4"
+repo_release_tag = "v2.0.6"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_transform"
 
@@ -39,7 +39,7 @@ destination = "alpha-anvil/curated"
 curate_source = "alpha-anvil/curated"
 db_ver = "v1"
 gluejob_bucket = "alpha-nomis-discovery"
-gluejob_role = "alpha_user_mandarinduck"
+gluejob_role = ROLE #"alpha_user_mandarinduck"
 entry_py_script = "run.py"
 work_capacity = "4"
 
