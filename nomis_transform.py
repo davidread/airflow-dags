@@ -39,7 +39,7 @@ destination = "alpha-anvil/curated"
 curate_source = "alpha-anvil/curated"
 db_ver = "v1"
 gluejob_bucket = "alpha-nomis-discovery"
-gluejob_role = "alpha_user_mandarinduck"
+gluejob_role = ROLE #"alpha_user_mandarinduck"
 entry_py_script = "run.py"
 work_capacity = "4"
 
