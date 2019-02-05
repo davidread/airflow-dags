@@ -76,6 +76,8 @@ for tsk in airflow_tasks["tasks"]:
             "GLUE_JOB_BUCKET": gluejob_bucket,
             "GLUE_JOB_ROLE": gluejob_role,
             "ALLOCATED_CAPACITY": work_capacity
+            "AWS_METADATA_SERVICE_TIMEOUT": "60",
+            "AWS_METADATA_SERVICE_NUM_ATTEMPTS": "5"
         },
         labels= {"anvil": dag.dag_id},
         name= nom,
