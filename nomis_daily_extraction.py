@@ -60,7 +60,8 @@ tasks[task_id] = KubernetesPodOperator(
     image=IMAGE,
     env_vars={
         "PYTHON_SCRIPT_NAME": EXTRACTION_CHECK_SCRIPT,
-        "IMAGE_VERSION": IMAGE_VERSION
+        "IMAGE_VERSION": IMAGE_VERSION,
+        "NOMIS_T62_FETCH_SIZE": NOMIS_T62_FETCH_SIZE
     },
     arguments=["{{ ds }}"],
     labels={"app": dag.dag_id},
