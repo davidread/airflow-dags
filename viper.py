@@ -6,7 +6,7 @@ from airflow.utils.dates import days_ago
 import json
 
 repo_name = "airflow-viper"
-repo_release_tag = "v0.0.1"
+repo_release_tag = "v0.0.1b"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_viper"
 
