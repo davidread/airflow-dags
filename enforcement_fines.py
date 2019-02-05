@@ -6,13 +6,11 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.5"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-enforcement-data-engineering:v0.0.6"
 ROLE = "airflow_enforcement_data_processing"
 
-FINES_DATASET=['closed', 'transactions', 'live']
-YEAR='2018'
-MONTH='10'
-BUCKET='alpha-enforcement-data-engineering'
+FINES_DATASETS=['closed', 'transactions', 'live']
+bucket='alpha-enforcement-data-engineering'
 
 # Task arguments
 task_args = {
@@ -32,25 +30,23 @@ dag = DAG(
     default_args=task_args,
     description="Cleaning and processing the enforcement fines datasets",
     start_date=datetime(2018, 11, 30),
-    schedule_interval=None
+    schedule_interval= "@monthly",
 )
 
-for dataset in FINES_DATASET:
-    task_id = f"enforcement-fines-data-{dataset}"
-    task = KubernetesPodOperator(
-        dag=dag,
-        namespace="airflow",
-        image=IMAGE,
-        env_vars={
-            "DATASET": f"{dataset}",
-            "YEAR": YEAR,
-            "MONTH": MONTH,
-            "BUCKET": BUCKET,
-        },
-        labels={"app": dag.dag_id},
-        name=task_id,
-        in_cluster=True,
-        task_id=task_id,
-        get_logs=True,
-        annotations={"iam.amazonaws.com/role": ROLE},
-    )
+for fine_type in FINES_DATASETS:
+        task_id = f"enforcement-fines-data-{fine_type}"
+        task = KubernetesPodOperator(
+            dag=dag,
+            namespace="airflow",
+            image=IMAGE,
+            env_vars={
+                "DATASET": f"{fine_type}",
+                "BUCKET": bucket,
+            },
+            labels={"app": dag.dag_id},
+            name=task_id,
+            in_cluster=True,
+            task_id=task_id,
+            get_logs=True,
+            annotations={"iam.amazonaws.com/role": ROLE},
+        )

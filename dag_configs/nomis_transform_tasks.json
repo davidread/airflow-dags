@@ -1,0 +1,160 @@
+{
+    "tasks": [
+        {
+            "task_id": "tsk_locations",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "agency_internal_locations",
+                "offender_external_movements",
+                "bed_assignment_histories"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_incidents",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "incident_cases",
+                "incident_case_parties",
+                "incident_case_questions",
+                "incident_case_responses"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_reference",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "reference_codes",
+                "agency_locations",
+                "profile_codes",
+                "questionnaire_questions",
+                "questionnaire_answers",
+                "questionnaires",
+                "imprisonment_statuses",
+                "incident_statuses",
+                "offences",
+                "questionnaire_roles"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_offender_core",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "offenders",
+                "offender_bookings",
+                "offender_risk_predictors",
+                "offender_assessment_items",
+                "offender_assessments"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_offender_attr",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "offender_alerts",
+                "offender_iep_levels",
+                "offender_oic_sanctions",
+                "offender_profile_details",
+                "offender_identifiers"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_offender_sent",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "offender_sentence_terms",
+                "offender_sent_calculations",
+                "offender_sentence_charges",
+                "offender_charges",
+                "offender_imprison_statuses"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_visits",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "offender_visits",
+                "offender_visit_visitors",
+                "offender_contact_persons"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_gangs_na",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "gang_non_associations",
+                "gangs",
+                "offender_gang_affiliations",
+                "offender_gang_evidences",
+                "offender_gang_invests",
+                "offender_na_details",
+                "offender_non_associations",
+                "offender_person_restricts"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_misc",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "addresses",
+                "persons",
+                "staff_members",
+                "random_testing_programs"
+            ],
+            "task_dependency_ids": []
+        },
+        {
+            "task_id": "tsk_denorm_pop",
+            "operation": "curate",
+            "table_set": [
+                "offender_location", 
+                "current_pop"
+            ],
+            "task_dependency_ids": [
+                "tsk_locations",
+                "tsk_offender_core"
+            ]
+        },
+        {
+            "task_id": "tsk_denorm_inc",
+            "operation": "curate",
+            "table_set": [
+                "involvements", 
+                "assaults", 
+                "assaults_detail", 
+                "selfharm", 
+                "finds", 
+                "disorder", 
+                "finds_detail", 
+                "selfharm_detail",
+                "irs_roles"
+            ],
+            "task_dependency_ids": [
+                "tsk_incidents",
+                "tsk_offender_core",
+                "tsk_reference"
+            ]
+        },
+        {
+            "task_id": "tsk_denorm_inc_invol",
+            "operation": "process_raw_hist",
+            "table_set": [
+                "sid_invol", 
+                "assaults_invol", 
+                "selfharm_invol", 
+                "disorder_invol", 
+                "finds_invol"
+            ],
+            "task_dependency_ids": [
+                "tsk_denorm_inc"
+            ]
+        }
+    ]
+}
