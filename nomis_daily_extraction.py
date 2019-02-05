@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # GLOBAL ENV VARIABLES
-IMAGE_VERSION = "v2.0.2"
+IMAGE_VERSION = "v2.0.3"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-nomis-ap:{IMAGE_VERSION}"
 ROLE = "airflow_nomis_extraction"
 NOMIS_T62_FETCH_SIZE = '100000'
@@ -73,8 +73,7 @@ tasks[task_id] = KubernetesPodOperator(
     in_cluster=True,
     task_id=task_id,
     get_logs=True,
-    annotations={"iam.amazonaws.com/role": ROLE},
-    is_delete_operator_pod=True
+    annotations={"iam.amazonaws.com/role": ROLE}
 )
 
 # Set dependencies
