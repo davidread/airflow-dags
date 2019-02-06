@@ -30,7 +30,7 @@ dag = DAG(
 
 # Define docker image and the AWS role (based on the airflow-repo)
 repo_name = "airflow-nomis-transform"
-repo_release_tag = "v2.0.6"
+repo_release_tag = "v2.0.7"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_transform"
 
@@ -39,13 +39,11 @@ destination = "alpha-anvil/curated"
 curate_source = "alpha-anvil/curated"
 db_ver = "v1"
 gluejob_bucket = "alpha-nomis-discovery"
-gluejob_role = ROLE #"alpha_user_mandarinduck"
+gluejob_role = ROLE
 entry_py_script = "run.py"
 work_capacity = "4"
 
-print(os.path.dirname(__file__))
 json_path = os.path.dirname(__file__) + "/dag_configs/nomis_transform_tasks.json"
-
 with open(json_path) as f:
     airflow_tasks = json.load(f)
 
@@ -75,7 +73,9 @@ for tsk in airflow_tasks["tasks"]:
             "PYTHON_SCRIPT_NAME": entry_py_script,
             "GLUE_JOB_BUCKET": gluejob_bucket,
             "GLUE_JOB_ROLE": gluejob_role,
-            "ALLOCATED_CAPACITY": work_capacity
+            "ALLOCATED_CAPACITY": work_capacity,
+            "AWS_METADATA_SERVICE_TIMEOUT": "60",
+            "AWS_METADATA_SERVICE_NUM_ATTEMPTS": "5"
         },
         labels= {"anvil": dag.dag_id},
         name= nom,

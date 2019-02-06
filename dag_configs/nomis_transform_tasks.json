@@ -75,16 +75,6 @@
             "task_dependency_ids": []
         },
         {
-            "task_id": "tsk_visits",
-            "operation": "process_raw_hist",
-            "table_set": [
-                "offender_visits",
-                "offender_visit_visitors",
-                "offender_contact_persons"
-            ],
-            "task_dependency_ids": []
-        },
-        {
             "task_id": "tsk_gangs_na",
             "operation": "process_raw_hist",
             "table_set": [
@@ -145,12 +135,12 @@
         {
             "task_id": "tsk_denorm_inc_invol",
             "operation": "process_raw_hist",
-            "table_set": [
-                "sid_invol", 
+            "table_set": [ 
                 "assaults_invol", 
                 "selfharm_invol", 
                 "disorder_invol", 
-                "finds_invol"
+                "finds_invol",
+                "sid_invol"
             ],
             "task_dependency_ids": [
                 "tsk_denorm_inc"
