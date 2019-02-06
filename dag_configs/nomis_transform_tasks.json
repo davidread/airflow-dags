@@ -135,12 +135,12 @@
         {
             "task_id": "tsk_denorm_inc_invol",
             "operation": "process_raw_hist",
-            "table_set": [
-                "sid_invol", 
+            "table_set": [ 
                 "assaults_invol", 
                 "selfharm_invol", 
                 "disorder_invol", 
-                "finds_invol"
+                "finds_invol",
+                "sid_invol"
             ],
             "task_dependency_ids": [
                 "tsk_denorm_inc"
