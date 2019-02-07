@@ -134,7 +134,7 @@
         },
         {
             "task_id": "tsk_denorm_inc_invol",
-            "operation": "process_raw_hist",
+            "operation": "curate",
             "table_set": [ 
                 "assaults_invol", 
                 "selfharm_invol", 
