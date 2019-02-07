@@ -32,7 +32,7 @@ try:
         task_id="scrape_all",
         get_logs=True,
         dag=dag,
-        annotations={"iam.amazonaws.com/role": "dev_ravi_test_airflow_assume_role"},
+        annotations={"iam.amazonaws.com/role": "airflow_occupeye_scraper"},
         image_pull_policy='Always'
     )
 
