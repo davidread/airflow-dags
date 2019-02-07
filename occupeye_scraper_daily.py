@@ -24,6 +24,10 @@ try:
     surveys_to_s3 = KubernetesPodOperator(
         namespace="airflow",
         image="593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-occupeye-scraper:v0.2",
+        env_vars={
+            "AWS_METADATA_SERVICE_TIMEOUT": "60",
+            "AWS_METADATA_SERVICE_NUM_ATTEMPTS": "5"
+        },
         cmds=["bash", "-c"],
         arguments=["python main.py --scrape_type=daily --scrape_datetime='{{ts}}' --next_execution_date='{{next_execution_date}}'"],
         labels={"foo": "bar"},
