@@ -9,7 +9,6 @@ repo_name = "airflow-viper"
 repo_release_tag = "v0.1.4"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_viper"
-AWS_DEFAULT_REGION: "eu-west-1"
 
 # Task arguments
 task_args = {
@@ -38,7 +37,8 @@ viper_task = KubernetesPodOperator(
         image= IMAGE,
         env_vars= {
             "DATABASE": "anvil_beta",
-            "OUTPUT_LOC": "alpha-anvil/curated"
+            "OUTPUT_LOC": "alpha-anvil/curated",
+            "AWS_DEFAULT_REGION": "eu-west-1"
         },
         labels= {"viper": dag.dag_id},
         name= "viper",
