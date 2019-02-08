@@ -19,10 +19,10 @@ dag = DAG(
     "nomis-transformations",
     default_args= task_args,
     description= "Process and curate NOMIS data for Anvil replacement",
-    start_date= datetime.now(),
-    schedule_interval= None
-    #start_date= datetime(2019, 1, 30),
-    #schedule_interval= timedelta(days=1)
+    #start_date= datetime.now(),
+    #schedule_interval= None
+    start_date= datetime(2019, 2, 8),
+    schedule_interval= timedelta(days=1)
 )
 
 #############################
@@ -30,7 +30,7 @@ dag = DAG(
 
 # Define docker image and the AWS role (based on the airflow-repo)
 repo_name = "airflow-nomis-transform"
-repo_release_tag = "v2.0.8"
+repo_release_tag = "v2.0.9"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_transform"
 
