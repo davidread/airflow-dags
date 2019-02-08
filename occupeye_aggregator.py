@@ -24,6 +24,10 @@ try:
     surveys_to_s3 = KubernetesPodOperator(
         namespace="airflow",
         image="quay.io/mojanalytics/airflow-occupeye-dashboard-aggregation:latest",
+        env_vars={
+            "AWS_METADATA_SERVICE_TIMEOUT": "60",
+            "AWS_METADATA_SERVICE_NUM_ATTEMPTS": "5"
+        },
         cmds=["bash", "-c"],
         arguments=["Rscript main.R"],
         labels={"foo": "bar"},
