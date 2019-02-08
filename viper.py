@@ -6,7 +6,7 @@ from airflow.utils.dates import days_ago
 import json
 
 repo_name = "airflow-viper"
-repo_release_tag = "v0.1.2"
+repo_release_tag = "v0.1.3"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_viper"
 
@@ -44,5 +44,6 @@ viper_task = KubernetesPodOperator(
         in_cluster= True,
         task_id= "viper",
         get_logs= True,
+        startup_timeout_seconds= 500,
         annotations= {"iam.amazonaws.com/role": ROLE},
         )
