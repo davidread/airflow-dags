@@ -37,7 +37,8 @@ viper_task = KubernetesPodOperator(
         image= IMAGE,
         env_vars= {
             "DATABASE": "anvil_beta",
-            "OUTPUT_LOC": "alpha-anvil/curated"
+            "OUTPUT_LOC": "alpha-anvil/curated",
+            "AWS_DEFAULT_REGION": "eu-west-1"
         },
         labels= {"viper": dag.dag_id},
         name= "viper",
