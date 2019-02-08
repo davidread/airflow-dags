@@ -9,6 +9,7 @@ repo_name = "airflow-viper"
 repo_release_tag = "v0.1.4"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_viper"
+AWS_DEFAULT_REGION: "eu-west-1"
 
 # Task arguments
 task_args = {
