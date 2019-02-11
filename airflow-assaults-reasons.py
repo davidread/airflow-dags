@@ -6,16 +6,13 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 # Define your docker image and the AWS role that will run the image (based on your airflow-repo)
-IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-assault-reasons:v0.4"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-assault-reasons:v0.4.1"
 ROLE = "airflow_assaults_reasons"
 
 # Task arguments
 task_args = {
     "depends_on_past": False,
     "email_on_failure": True,
-    "retries": 3,
-    "retry_delay": timedelta(seconds=30),
-    "retry_exponential_backoff": True,
     "owner": "filippoberio",
     "email": ["philip.dent2@digital.justice.gov.uk"],
 }
