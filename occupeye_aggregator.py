@@ -9,7 +9,7 @@ try:
     from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOperator
 
     args = {"owner": "Robin",
-            "start_date": datetime(2019, 1, 30),
+            "start_date": datetime(2019, 2, 11),
             "retries": 2,
             "retry_delay": timedelta(minutes=50),
             "email": ["robin.linacre@digital.justice.gov.uk"],
@@ -23,7 +23,7 @@ try:
 
     surveys_to_s3 = KubernetesPodOperator(
         namespace="airflow",
-        image="quay.io/mojanalytics/airflow-occupeye-dashboard-aggregation:latest",
+        image="593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-occupeye-dashboard-aggregation:v0.11.0",
         env_vars={
             "AWS_METADATA_SERVICE_TIMEOUT": "60",
             "AWS_METADATA_SERVICE_NUM_ATTEMPTS": "5"
