@@ -19,10 +19,10 @@ dag = DAG(
     "nomis-transformations",
     default_args= task_args,
     description= "Process and curate NOMIS data for Anvil replacement",
-    start_date= datetime.now(),
-    schedule_interval= None
-    #start_date= datetime(2019, 1, 30),
-    #schedule_interval= timedelta(days=1)
+    #start_date= datetime.now(),
+    #schedule_interval= None
+    start_date= datetime(2019, 2, 8),
+    schedule_interval= timedelta(days=1)
 )
 
 #############################
@@ -30,13 +30,14 @@ dag = DAG(
 
 # Define docker image and the AWS role (based on the airflow-repo)
 repo_name = "airflow-nomis-transform"
-repo_release_tag = "v2.0.7"
+repo_release_tag = "v2.0.9"
 IMAGE = f"593291632749.dkr.ecr.eu-west-1.amazonaws.com/{repo_name}:{repo_release_tag}"
 ROLE = "airflow_nomis_transform"
 
 process_source = "mojap-raw-hist/hmpps/nomis_t62"
 destination = "alpha-anvil/curated"
 curate_source = "alpha-anvil/curated"
+athena_database = "anvil_beta"
 db_ver = "v1"
 gluejob_bucket = "alpha-nomis-discovery"
 gluejob_role = ROLE
@@ -69,6 +70,7 @@ for tsk in airflow_tasks["tasks"]:
             "NOMIS_TRANSFORM": tsk["operation"],
             "SOURCE": s3_source,
             "DESTINATION": destination,
+            "ATHENA_DB": athena_database,
             "DB_VERSION": db_ver,
             "PYTHON_SCRIPT_NAME": entry_py_script,
             "GLUE_JOB_BUCKET": gluejob_bucket,
