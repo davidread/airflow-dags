@@ -6,7 +6,7 @@ from airflow.contrib.operators.kubernetes_pod_operator import KubernetesPodOpera
 from airflow.utils.dates import days_ago
 
 
-IMAGE = "qu593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-prison-population-hub:v1.0.3"
+IMAGE = "593291632749.dkr.ecr.eu-west-1.amazonaws.com/airflow-prison-population-hub:v1.0.3"
 IAM_ROLE = "airflow_prison_population_hub"
 
 task_args = {
