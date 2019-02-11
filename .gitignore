@@ -114,3 +114,5 @@ docs/_build/
 # PyBuilder
 target/
 
+# Virtual env
+venv
