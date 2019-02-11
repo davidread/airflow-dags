@@ -14,9 +14,9 @@ ROLE = "airflow_nomis_viper"
 task_args = {
     "depends_on_past": False,
     "email_on_failure": True,
-    "retries": 3,
-    "retry_delay": timedelta(seconds=30),
-    "retry_exponential_backoff": True,
+    #"retries": 3,
+    #"retry_delay": timedelta(seconds=30),
+    #"retry_exponential_backoff": True,
     "owner": "mandarinduck",
     "email": ["adam.booker@digital.justice.gov.uk","anvil@noms.gsi.gov.uk"],
 }
